@@ -4,25 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="style.css" rel="stylesheet" />
 </head>
 <body>
-<form action="pesquisar.php" method="POST">
-        <label for="termo">Digite o termo de pesquisa:</label><br>
-        <input type="text" id="termo" name="busca" placeholder="Digite algo..."><br><br>
-        <input type="submit" value="Pesquisar">
-    </form>
-
-    <?php 
     
-if (isset($_POST['busca'])) {
-	$pesquisa = $_POST['busca'];
-	} else {
-	$pesquisa= '  ';
+
+
+<?php 
+include "conexao.php";
+$id = $_GET['id'] ?? '  ';
+
+
+
+
+$sql = "DELETE FROM medicamentos WHERE id = $id";
+
+if (mysqli_query($conn, $sql)) {
+    echo "excluido com sucesso";
+} else {
+    echo "Não foi cadastrado: " . mysqli_error($conn);
 }
 
-include "conexao.php";
-    
-$sql = "SELECT * FROM produtos WHERE nome LIKE '%$pesquisa%'";
+$sql = "SELECT * FROM medicamentos";
 
  
 $dados = mysqli_query($conn, $sql);
@@ -44,6 +47,12 @@ if (mysqli_num_rows($dados) > 0) {
     echo "</tr>";  
 }
 }
-    ?>
+
+
+
+
+?>
+
+<a href='index.php'>Voltar</a>
 </body>
 </html>
